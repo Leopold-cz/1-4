@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.second.dao.TeacherDao">
+
+    <resultMap id="BaseResultMap" type="com.example.second.entity.Teacher">
+        <id column="uid" property="uid" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="homeland" property="homeland" jdbcType="VARCHAR"/>
+        <result column="nation" property="nation" jdbcType="VARCHAR"/>
+        <result column="subject" property="subject" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="mail" property="mail" jdbcType="VARCHAR"/>
+        <result column="wechat" property="wechat" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="school" property="school" jdbcType="VARCHAR"/>
+        <result column="college" property="college" jdbcType="VARCHAR"/>
+        <result column="height" property="height" jdbcType="DOUBLE"/>
+        <result column="weight" property="weight" jdbcType="DOUBLE"/>
+        <result column="identify" property="identify" jdbcType="VARCHAR"/>
+        <result column="new_age" property="new_age" jdbcType="INTEGER"/>
+        <result column="grade" property="grade" jdbcType="VARCHAR"/>
+        <result column="work_time" property="work_time" jdbcType="VARCHAR"/>
+        <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        uid, name, age, sex, homeland, nation,  subject,
+        phone, mail, wechat, status,school,college,height,weight,
+        identify,new_age,grade,work_time,introduction
+    </sql>
+
+    <select id="findAllTeachers" resultType="com.example.second.entity.Teacher">
+        select * from teacher
+    </select>
+
+    <select id="findTeacherByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from teacher where name = #{name,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteTeachersByIds">
+        delete from teacher where uid in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getCountTeachers" resultType="java.lang.Integer">
+        select count(uid) as count from teacher
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from teacher
+        where uid = #{uid,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteTeacherById" parameterType="java.lang.Long">
+        delete from teacher
+        where uid = #{uid,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.second.entity.Teacher">
+        insert into teacher (uid, name, age, sex, homeland, nation,subject,
+                             phone, mail, wechat, status,school,college,height,weight,
+                             identify,new_age,grade,work_time,introduction)
+        values (#{uid,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR},
+        #{sex,jdbcType=VARCHAR}, #{homeland,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR},
+        #{subject,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{mail,jdbcType=VARCHAR},
+        #{wechat,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},#{school,jdbcType=VARCHAR},
+        #{collge,jdbcType=VARCHAR},#{height,jdbcType=DOUBLE},#{weight,jdbcType=DOUBLE},
+        #{identify,jdbcType=VARCHAR},#{new_age,jdbcType=INTEGER},#{grade,jdbcType=VARCHAR},
+        #{work_time,jdbcType=VARCHAR},#{introduction,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="addTeacher" parameterType="com.example.second.entity.Teacher">
+-- 检查邮箱是否合法ALTER TABLE bbsUsers ADD CONSTRAINT email CHECK(email like '%@%')
+        insert into teacher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                uid,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="homeland != null">
+                homeland,
+            </if>
+            <if test="nation != null">
+                nation,
+            </if>
+            <if test="subject != null">
+                subject,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="mail != null">
+                mail,
+            </if>
+            <if test="wechat != null">
+                wechat,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="school != null">
+                school,
+            </if>
+            <if test="college != null">
+                college,
+            </if>
+            <if test="height != null">
+                height,
+            </if>
+            <if test="weight != null">
+                weight,
+            </if>
+            <if test="identify != null">
+                identify,
+            </if>
+            <if test="new_age != null">
+                new_age,
+            </if>
+            <if test="grade != null">
+                grade,
+            </if>
+            <if test="work_time != null">
+                work_time,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+
+        </trim>
+
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                #{uid,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                #{age,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="homeland != null">
+                #{homeland,jdbcType=VARCHAR},
+            </if>
+            <if test="nation != null">
+                #{nation,jdbcType=VARCHAR},
+            </if>
+            <if test="subject != null">
+                #{subject,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="mail != null">
+                #{mail,jdbcType=VARCHAR},
+            </if>
+            <if test="wechat != null">
+                #{wechat,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="school != null">
+                #{school,jdbcType=VARCHAR},
+            </if>
+            <if test="college != null">
+                #{college,jdbcType=VARCHAR},
+            </if>
+            <if test="height != null">
+                #{height,jdbcType=DOUBLE},
+            </if>
+            <if test="weight != null">
+                #{weight,jdbcType=DOUBLE},
+            </if>
+            <if test="identify != null">
+                #{identify,jdbcType=VARCHAR},
+            </if>
+            <if test="new_age != null">
+                #{new_age,jdbcType=INTEGER},
+            </if>
+            <if test="grade != null">
+                #{grade,jdbcType=VARCHAR},
+            </if>
+            <if test="work_time != null">
+                #{work_time,jdbcType=VARCHAR},
+            </if>
+            <if test="introduction != null">
+                #{introduction,jdbcType=VARCHAR},
+            </if>
+
+        </trim>
+    </insert>
+
+    <update id="updateTeacher" parameterType="com.example.second.entity.Teacher">
+-- 判断表是否存在
+--     IF EXISTS(SELECT * FROM teacher WHERE name='uid')
+        update teacher
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                age = #{age,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="homeland != null">
+                homeland = #{homeland,jdbcType=VARCHAR},
+            </if>
+            <if test="nation != null">
+                nation = #{nation,jdbcType=VARCHAR},
+            </if>
+            <if test="subject != null">
+                subject = #{subject,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="mail != null">
+                mail = #{mail,jdbcType=VARCHAR},
+            </if>
+            <if test="wechat != null">
+                wechat = #{wechat,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="school != null">
+                school = #{school,jdbcType=VARCHAR},
+            </if>
+            <if test="college != null">
+                college = #{college,jdbcType=VARCHAR},
+            </if>
+            <if test="height != null">
+                height = #{height,jdbcType=DOUBLE},
+            </if>
+            <if test="weight != null">
+                weight = #{weight,jdbcType=DOUBLE},
+            </if>
+            <if test="identify != null">
+                identify = #{identify,jdbcType=VARCHAR},
+            </if>
+            <if test="new_age != null">
+                new_age = #{new_age,jdbcType=INTEGER},
+            </if>
+            <if test="grade != null">
+                grade = #{grade,jdbcType=VARCHAR},
+            </if>
+            <if test="work_time != null">
+                work_time = #{work_time,jdbcType=VARCHAR},
+            </if>
+            <if test="introduction != null">
+                introduction = #{introduction,jdbcType=VARCHAR},
+            </if>
+
+        </set>
+        where uid = #{uid,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.example.second.entity.Teacher">
+        update teacher
+        set name = #{name,jdbcType=VARCHAR},
+        age = #{age,jdbcType=VARCHAR},
+        sex = #{sex,jdbcType=VARCHAR},
+        homeland = #{homeland,jdbcType=VARCHAR},
+        nation = #{nation,jdbcType=VARCHAR},
+        subject = #{subject,jdbcType=VARCHAR},
+        phone = #{phone,jdbcType=VARCHAR},
+        mail = #{mail,jdbcType=VARCHAR},
+        wechat= #{wechat,jdbcType=VARCHAR},
+        status = #{status,jdbcType=VARCHAR},
+        school = #{school,jdbcType=VARCHAR},
+        college = #{college,jdbcType=VARCHAR},
+        height = #{height,jdbcType=DOUBLE},
+        weight = #{weight,jdbcType=DOUBLE},
+        identify = #{identify,jdbcType=VARCHAR},
+        new_age = #{new_age,jdbcType=INTEGER},
+        grade = #{grade,jdbcType=VARCHAR},
+        work_time = #{work_time,jdbcType=VARCHAR},
+        introduction = #{introduction,jdbcType=VARCHAR},
+        where uid = #{uid,jdbcType=BIGINT}
+    </update>
+
+</mapper>
